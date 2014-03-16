@@ -10,7 +10,8 @@ The hour hand needs 12h to travel 360° (30°/h , 0.5°/min, 0,008333333°/sec )
 The minute hand needs one hour for the full 360° (6°/min, 0.1°/sec).
 
 We can calculate the angle for the both clock hands for every second and
-compare them. When the angles are equal the clock hands meet each other.
+compare them. When the angles are (nearly) equal the clock hands meet each
+other.
 
 '''
 
@@ -66,16 +67,21 @@ def time_to_degrees(hour, minute, second):
 
 
 def main():
+    meet_times = []
     for hour in range(0, 12):
         for minute in range(0, 60):
             for second in range(0, 60):
                 angle_hour, angle_minute, c = time_to_degrees(hour,
                                                               minute,
                                                               second)
-                str_hour = "{0:.1f}".format(angle_hour)
-                str_minute = "{0:.1f}".format(angle_minute)
-                if str_hour == str_minute:
-                    print "%02i:%02i:%02i" % (hour, minute, second)
+
+                # if the angles are nearly equal
+                if int(angle_hour * 10) == int(angle_minute * 10):
+                    meet_times.append((hour, minute, second))
+
+    print "The clock hands meet each other %i times per 12 hours." % len(meet_times)
+    for time in meet_times:
+        print "%02i:%02i:%02i" % time
 
 
 if __name__ == '__main__':
